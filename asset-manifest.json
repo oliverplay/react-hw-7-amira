@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/react-hw-7-amira/static/css/main.0f8ac651.css",
-    "main.js": "/react-hw-7-amira/static/js/main.efbe08fe.js",
+    "main.js": "/react-hw-7-amira/static/js/main.aea55822.js",
     "index.html": "/react-hw-7-amira/index.html",
     "main.0f8ac651.css.map": "/react-hw-7-amira/static/css/main.0f8ac651.css.map",
-    "main.efbe08fe.js.map": "/react-hw-7-amira/static/js/main.efbe08fe.js.map"
+    "main.aea55822.js.map": "/react-hw-7-amira/static/js/main.aea55822.js.map"
   },
   "entrypoints": [
     "static/css/main.0f8ac651.css",
-    "static/js/main.efbe08fe.js"
+    "static/js/main.aea55822.js"
   ]
 }
