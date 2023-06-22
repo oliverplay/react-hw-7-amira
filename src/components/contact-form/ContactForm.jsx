@@ -1,15 +1,26 @@
-import  style from '../contact-form/style.module.css';
+import style from '../contact-form/style.module.css';
 
-function ContactForm({ name, phone, handleNameChange, handleNumberChange, handleSubmit }) {
+function ContactForm({
+  name,
+  number,
+  handleNameChange,
+  handleNumberChange,
+  handleSubmit,
+}) {
   return (
-    <form onSubmit={handleSubmit}  className={style.contactForm}>
+    <form onSubmit={handleSubmit} className={style.contactForm}>
       <div>
-        <label >Name:</label>
+        <label>Name:</label>
         <input type="text" id="name" value={name} onChange={handleNameChange} />
       </div>
       <div>
-        <label >Number:</label>
-        <input type="tel" id="number" value={phone} onChange={handleNumberChange} />
+        <label>Number:</label>
+        <input
+          type="tel"
+          id="number"
+          value={number}
+          onChange={handleNumberChange}
+        />
       </div>
       <div>
         <button type="submit">Add Contact</button>
