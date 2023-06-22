@@ -1,101 +1,108 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ContactForm from '../contact-form/ContactForm';
 import ContactList from '../contact-list/ContactList';
 import Filter from '../filter/Filter';
-import { useDispatch } from 'react-redux';
-import { deleteContacts, fetchContacts, postContacts } from '../../redux/operators';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  deleteContacts,
+  fetchContacts,
+  postContacts,
+} from '../../redux/operators';
 import { getContacts } from '../../redux/selectors';
 
-
-
-
 function PhonebookApp() {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
+  // const [filter, setFilter] = useState('');
 
-    const [state, setState] = useState({
-    name: '',
-    number: '',
-  });
   const dispatch = useDispatch();
-  
+  const contacts = useSelector(getContacts);
+
   useEffect(() => {
     const storedContacts = JSON.parse(localStorage.getItem('contacts') || '[]');
-    setState(storedContacts);
+    setName(storedContacts.name || '');
+    setNumber(storedContacts.number || '');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(state));
-  }, [state]);
+    localStorage.setItem('contacts', JSON.stringify({ name, number }));
+  }, [name, number]);
 
-  function handleNameChange (event)  {
-    setState({ ...state, name: event.target.value });
-  };
+  function handleNameChange(event) {
+    setName(event.target.value);
+  }
 
-  function handleNumberChange  (event)  {
-    setState({ ...state, number: event.target.value });
-  };
+  function handleNumberChange(event) {
+    setNumber(event.target.value);
+  }
 
+  // function handleFilterChange(event) {
+  //   setFilter(event.target.value);
+  // }
 
-const contacts = useSelector(getContacts);
   function handleSubmit(event) {
     event.preventDefault();
-    
 
     const existingContactName = contacts.some(
-      contact => contact.name.toLowerCase() === state.name.toLowerCase() 
-    )
+      contact => contact.name.toLowerCase() === name.toLowerCase()
+    );
     const existingContactNumber = contacts.find(
-      contact => contact.phone === state.phone 
-    )
+      contact => contact.phone === number
+    );
+
     if (existingContactName) {
-      alert(`${state.name} is already in the phonebook!`);
+      alert(`${name} is already in the phonebook!`);
       return;
     }
+
     if (existingContactNumber) {
-      alert(`${state.phone} is already in the phonebook!`);
+      alert(`${number} is already in the phonebook!`);
       return;
     }
 
-    
-    if (state.number.trim()  === "") {
-      event.preventDefault();
-      alert(`Please write  name and phone number`);
-      return;
-    }
-    if (state.name.trim()  === "") {
-      event.preventDefault();
-      alert(`Please write  name and phone number`);
+    if (number.trim() === '' || name.trim() === '') {
+      alert('Please enter a name and phone number');
       return;
     }
 
-
-    dispatch(postContacts(state)).then(() => {
+    dispatch(postContacts({ name, number })).then(() => {
       dispatch(fetchContacts());
     });
-  };
-  
-  function handleDelete  (id)  {
+
+    setName('');
+    setNumber('');
+  }
+
+  function handleDelete(id) {
     dispatch(deleteContacts(id)).then(() => {
       dispatch(fetchContacts());
     });
-  };
+  }
 
-  
-  
+  // const filteredContacts = contacts.filter(contact =>
+  //   contact.name.toLowerCase().includes(filter.toLowerCase())
+  // );
 
   return (
     <div>
       <h1>Contact Book</h1>
       <ContactForm
-        name={state.name}
-        number={state.phone}
+        name={name}
+        number={number}
         handleNameChange={handleNameChange}
         handleNumberChange={handleNumberChange}
         handleSubmit={handleSubmit}
       />
       <h2>Contacts</h2>
-      <Filter value={state.filter}  />
-      <ContactList    handleDelete={handleDelete} />
+      <Filter
+      // value={filter}
+      // onChange={handleFilterChange}
+      />
+      <ContactList
+        // contacts={filteredContacts}
+        handleDelete={handleDelete}
+      />
     </div>
   );
 }

@@ -1,9 +1,16 @@
+import React from 'react';
 import style from '../filter/style.module.css';
+import { useSelector, useDispatch } from 'react-redux';
 import { changeFilter } from '../../redux/slice';
-import { useDispatch } from 'react-redux';
+import { getFilter } from '../../redux/selectors';
 
-function Filter({ value }) {
+function Filter() {
   const dispatch = useDispatch();
+  const filter = useSelector(getFilter);
+
+  function handleFilterChange(e) {
+    dispatch(changeFilter(e.target.value));
+  }
 
   return (
     <div className={style.filter}>
@@ -11,11 +18,11 @@ function Filter({ value }) {
       <input
         type="text"
         id="filter"
-        value={value}
-        onChange={e => dispatch(changeFilter(e.target.value))}
+        value={filter}
+        onChange={handleFilterChange}
       />
     </div>
   );
 }
 
-export default Filter;
+export default React.memo(Filter);

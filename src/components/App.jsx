@@ -1,9 +1,9 @@
-import PhonebookApp from "./phonebook/PhonebookApp";
+import PhonebookApp from './phonebook/PhonebookApp';
 
 export const App = () => {
   return (
     <div>
-     <PhonebookApp/> 
+      <PhonebookApp />
     </div>
   );
 };
