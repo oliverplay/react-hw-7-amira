@@ -9,3 +9,4 @@ export default function filterFunction(contacts, filter) {
     );
   });
 }
+// fikter
